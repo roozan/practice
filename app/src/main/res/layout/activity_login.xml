@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.rouzan.practice.LoginActivity"
     android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Khaja Nepal"/>
+        android:text="Khaja Nepal"
+        android:textColor="#EE82EE"
+        android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"/>
+        android:text="Login"
+        android:textColor="#EE82EE"
+        android:gravity="center"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,11 +36,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username:"/>
+        android:text="Email:"
+        android:textColor="#FFFFFF"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/email_et"
+        android:textColor="#FFFFFF"/>
 
     </LinearLayout>
     <LinearLayout
@@ -35,11 +53,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password:"/>
+        android:text="Password:"
+        android:textColor="#FFFFFF"
+        />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/password_et"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 
@@ -47,16 +69,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/login_button"/>
+        android:id="@+id/login_button"
+        android:layout_gravity="center"
+        android:layout_marginBottom="105dp"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Not a user yet?"/>
+        android:text="Not a user yet?"
+        android:textColor="#EE82EE"
+        android:gravity="center"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SignUp"
-        android:id="@+id/signup_button"/>
-
-</LinearLayout>
+        android:id="@+id/signup_button"
+        android:layout_gravity="center"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/login_pb"
+        android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>

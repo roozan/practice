@@ -15,9 +15,8 @@
         android:text="Item_name"
         android:id="@+id/food_name"/>
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/item_photo"
         android:scaleType="fitXY"
         android:id="@+id/food_image"/>
     <LinearLayout
