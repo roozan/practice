@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/home"
+    android:title="home"
+    android:icon="@android:drawable/btn_dialog"/>
+<item
+        android:title="Search"
+        android:id="@+id/search"
+        android:icon="@android:drawable/arrow_up_float"/>
+<item
+        android:title="Notifications"
+        android:id="@+id/notifications"
+        android:icon="@android:drawable/btn_dropdown"/>
+<item
+        android:id="@+id/profile"
+        android:title="profile"
+        android:icon="@android:drawable/alert_dark_frame"/>
+
+
+</menu>

@@ -1,31 +1,27 @@
 {
   "project_info": {
-    "project_number": "958201757982",
-    "firebase_url": "https://sample-f60b5.firebaseio.com",
-    "project_id": "sample-f60b5",
-    "storage_bucket": "sample-f60b5.appspot.com"
+    "project_number": "966303408867",
+    "firebase_url": "https://khajanepal.firebaseio.com",
+    "project_id": "khajanepal",
+    "storage_bucket": "khajanepal.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:958201757982:android:4042012991815544",
+        "mobilesdk_app_id": "1:966303408867:android:4042012991815544",
         "android_client_info": {
           "package_name": "com.example.rouzan.practice"
         }
       },
       "oauth_client": [
         {
-          "client_id": "958201757982-2rqgahhk3rid8orsu9iqr10ci2f42nk4.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "958201757982-2rqgahhk3rid8orsu9iqr10ci2f42nk4.apps.googleusercontent.com",
+          "client_id": "966303408867-hg279a7k27tflbipo2khvsjf74f00467.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBFJVzdj899rEzZqCyC3tNw4uTkEz5YfYg"
+          "current_key": "AIzaSyA2D1BVHzc1ljFe9wDv6HVOMmj6VN44d44"
         }
       ],
       "services": {

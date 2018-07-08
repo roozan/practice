@@ -1,10 +1,13 @@
 package com.example.rouzan.practice;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,30 +31,45 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-RecyclerView showFeedList;
-    ProgressBar mainPb;
+
+    BottomNavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        navigationView=findViewById(R.id.navigation_view);
 
         setSupportActionBar(toolbar);
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container,new HomeFragment());
+        fragmentTransaction.commit();
 
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.home:{
+                        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_container,new HomeFragment());
+                        fragmentTransaction.commit();
+                        break;
 
-        showFeedList=findViewById(R.id.show_feed_list);
-        mainPb=findViewById(R.id.main_pb);
+                    }
+                    case R.id.search:{
+                        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_container,new ProfileFragment());
+                        fragmentTransaction.commit();
+                        break;
 
+                    }
+                    case R.id.profile:{
 
-
-        LinearLayoutManager Manager=new LinearLayoutManager(this);
-        Manager.setOrientation(LinearLayoutManager.VERTICAL);
-        Manager.setReverseLayout(true);
-        Manager.setStackFromEnd(true);
-        showFeedList.setLayoutManager(Manager);
-        GetFeedList();
-
-
+                    }
+                }
+                return true;
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_post_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,30 +81,7 @@ RecyclerView showFeedList;
         });
     }
 
-    private void GetFeedList() {
-        FirebaseDatabase.getInstance().getReference().child("posts")
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List <Post> postList = new ArrayList<>();
-                Iterator <DataSnapshot> dataSnapshotIterator= dataSnapshot.getChildren().iterator();
-                while(dataSnapshotIterator.hasNext()){
-                    DataSnapshot snapshot = dataSnapshotIterator.next();
-                    postList.add(snapshot.getValue(Post.class));
-                }
-                ShowFeedAdapter adapter = new ShowFeedAdapter(postList);
-                showFeedList.setAdapter(adapter);
-                mainPb.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                mainPb.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Error:"+databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
 
   /*  List<Post> postList=new ArrayList<>();
     Iterator <DataSnapshot> iterator=dataSnapshot.getChildren().iterator();
