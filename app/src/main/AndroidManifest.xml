@@ -23,10 +23,6 @@
 
         </activity>
         <activity android:name=".SignUpActivity" />
-        <activity
-            android:name=".AddPostActivity"
-            android:label="@string/title_activity_add_post"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DemoRecycleView.demoRecyclerView">
 
         </activity>

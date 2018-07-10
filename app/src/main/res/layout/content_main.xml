@@ -16,10 +16,10 @@
    </FrameLayout>
 
    <android.support.design.widget.BottomNavigationView
+       android:id="@+id/navigation_view"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_alignParentBottom="true"
-       android:id="@+id/navigation_view"
        app:menu="@menu/button_navigation_menu">
 
    </android.support.design.widget.BottomNavigationView>

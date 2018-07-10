@@ -9,6 +9,10 @@
         android:id="@+id/search"
         android:icon="@android:drawable/arrow_up_float"/>
 <item
+        android:title="Add"
+        android:id="@+id/add"
+        android:icon="@android:drawable/btn_dropdown"/>
+<item
         android:title="Notifications"
         android:id="@+id/notifications"
         android:icon="@android:drawable/btn_dropdown"/>

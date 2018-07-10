@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AddPostActivity">
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -26,10 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Food name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Food name"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,9 +57,9 @@
         android:orientation="horizontal">
 
         <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Spicy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spicy"
             android:id="@+id/checkbox_spicy"/>
 
         <CheckBox
@@ -89,11 +88,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose Photo"
-        android:id="@+id/choose_photo_button"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Photo"
+            android:id="@+id/choose_photo_button"/>
 
     </LinearLayout>
     <Button

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView=findViewById(R.id.navigation_view);
 
         setSupportActionBar(toolbar);
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container,new HomeFragment());
         fragmentTransaction.commit();
 
@@ -58,27 +58,36 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.search:{
                         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_container,new ProfileFragment());
+                        fragmentTransaction.replace(R.id.main_container,new SearchFragment());
                         fragmentTransaction.commit();
                         break;
 
                     }
-                    case R.id.profile:{
+                    case R.id.add:{
+                        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_container,new AddPostFragment());
+                        fragmentTransaction.commit();
+                        break;
 
+                    }
+                    case R.id.notifications:{
+                        FragmentTransaction fragmentTransaction1=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction1.replace(R.id.main_container,new NotificationFragment());
+                        fragmentTransaction1.commit();
+                        break;
+                    }
+
+                    case R.id.profile:{
+                        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_container,new ProfileFragment());
+                        fragmentTransaction.commit();
+                        break;
                     }
                 }
                 return true;
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_post_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent intent=new Intent(MainActivity.this,AddPostActivity.class);
-               startActivity(intent);
-            }
-        });
     }
 
 
