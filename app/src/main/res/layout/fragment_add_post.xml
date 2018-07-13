@@ -34,23 +34,35 @@
             android:layout_height="wrap_content"
             android:id="@+id/food_name_et"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category:"/>
-        <EditText
-            android:layout_width="match_parent"
+
+        <RadioGroup
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/food_category_et"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:id="@+id/category_rg">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Veg"
+                android:id="@+id/category_veg_rb"/>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Non-Veg"
+                android:id="@+id/category_nonveg_rb"/>
+        </RadioGroup>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select category:"/>
+        android:text="Select any of the tastes:"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,22 +96,17 @@
             android:id="@+id/checkbox_bitter"/>
 
     </LinearLayout>
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Want to upload a photo of food?"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Photo"
+            android:text="Upload Photo"
             android:id="@+id/choose_photo_button"/>
 
-    </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post"
-        android:id="@+id/post_button" />
+
 
     <ImageView
         android:layout_width="90dp"
@@ -107,6 +114,13 @@
         android:id="@+id/photo_image_view"
         android:src="@mipmap/ic_launcher"
         android:layout_gravity="center"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:layout_gravity="center"
+        android:id="@+id/post_button" />
 
     <ProgressBar
         android:layout_width="wrap_content"

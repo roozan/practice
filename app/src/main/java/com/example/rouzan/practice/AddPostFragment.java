@@ -18,13 +18,18 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -39,15 +44,16 @@ import java.util.ArrayList;
 public class AddPostFragment extends Fragment {
 
     Bitmap bitmap;
-    Button Post,choosePhoto;
+    Button Post,choosePhoto,categoryVeg,categoryNonVeg;
     CheckBox checkBoxSpicy,checkBoxSour,checkBoxSweet,checkBoxSalty,checkBoxBitter;
-    String foodNameStr,foodCategoryStr;
+    String foodNameStr,categoryStr,userCategory;
     ArrayList<String> categoryList=new ArrayList<>();
-    EditText foodNameEt,foodCategoryEt;
+    EditText foodNameEt;
     ImageView photoImageView;
     Uri filePath;
     final int PICK_IMAGE_REQUEST =71;
     ProgressBar addPostPb;
+    RadioGroup categoryRg;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -58,7 +64,6 @@ public class AddPostFragment extends Fragment {
     }
     void defineView(View view){
         foodNameEt=view.findViewById(R.id.food_name_et);
-        foodCategoryEt=view.findViewById(R.id.food_category_et);
 
         checkBoxSpicy=view.findViewById(R.id.checkbox_spicy);
         checkBoxSour=view.findViewById(R.id.checkbox_sour);
@@ -69,7 +74,9 @@ public class AddPostFragment extends Fragment {
         choosePhoto=view.findViewById(R.id.choose_photo_button);
         photoImageView=view.findViewById(R.id.photo_image_view);
         addPostPb=view.findViewById(R.id.add_post_pb);
-
+        categoryRg=view.findViewById(R.id.category_rg);
+        categoryVeg=view.findViewById(R.id.category_veg_rb);
+        categoryNonVeg=view.findViewById(R.id.category_nonveg_rb);
 
 
     }
@@ -97,10 +104,26 @@ public class AddPostFragment extends Fragment {
             }
         }
     }
-    void uploadPhotoToDatabase(Post post){
-        FirebaseDatabase.getInstance().getReference().child("posts")
-                .child(FirebaseAuth.getInstance().getUid()).setValue(post);
 
+    void getUserCategory(){
+        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                userCategory=user.getCategory();
+
+                if(userCategory.equalsIgnoreCase("veg")){
+                    categoryVeg.setSelected(true);
+                    categoryNonVeg.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     Boolean checkBoxStatus(){
         boolean value=false;
@@ -125,12 +148,13 @@ public class AddPostFragment extends Fragment {
         boolean value=false;
 
         foodNameStr=foodNameEt.getText().toString();
-        foodCategoryStr=foodCategoryEt.getText().toString();
 
         if(TextUtils.isEmpty(foodNameStr))
             foodNameEt.setError("Required!");
-        else if (TextUtils.isEmpty(foodCategoryStr))
-            foodCategoryEt.setError("Required!");
+
+        else if (TextUtils.isEmpty(categoryStr))
+            Toast.makeText(getContext(), "Select at least one!", Toast.LENGTH_SHORT).show();
+
         else if (checkBoxStatus())
             Toast.makeText(getContext(), "Select at least one category!", Toast.LENGTH_SHORT).show();
 
@@ -143,7 +167,7 @@ public class AddPostFragment extends Fragment {
     void registerPostToFirebase(){
         final Post post=new Post();
         post.setFoodName(foodNameStr);
-        post.setCategoryName(foodCategoryStr);
+        post.setCategoryName(categoryStr);
         post.setCategoryList(categoryList);
         post.setPostUploaderId(FirebaseAuth.getInstance().getUid());
         post.setPostUploadTime(System.currentTimeMillis());
@@ -208,12 +232,23 @@ public class AddPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_add_post,container,false);
+        final View view=inflater.inflate(R.layout.fragment_add_post,container,false);
         defineView(view);
+        getUserCategory();
         storage=FirebaseStorage.getInstance();
         storageReference=storage.getReference();
 
         Post=view.findViewById(R.id.post_button);
+
+        categoryRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedButton=view.findViewById(i);
+                categoryStr=checkedButton.getText().toString();
+
+            }
+        });
+
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

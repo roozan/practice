@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
 
     }
     private void GetFeedList() {
-        FirebaseDatabase.getInstance().getReference().child("posts")
+        FirebaseDatabase.getInstance().getReference().child("posts").orderByChild("postUploaderId").equalTo(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Error:"+databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -95,6 +96,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Error:"+databaseError.getMessage().toString() ,Toast.LENGTH_SHORT).show();
 
             }
         });

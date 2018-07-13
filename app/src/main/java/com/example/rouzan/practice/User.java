@@ -1,7 +1,23 @@
 package com.example.rouzan.practice;
 
 public class User {
-    private String firstName,lastName,userName,email,password,category;
+    private String firstName,lastName,userName,email,password,category,profilePhotoUrl,userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
+    }
+
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
+    }
 
     public String getFirstName() {
         return firstName;

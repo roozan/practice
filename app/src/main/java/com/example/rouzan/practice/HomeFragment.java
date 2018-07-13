@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
 
     RecyclerView showFeedList;
     ProgressBar mainPb;
+    String userCategory;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -48,13 +50,61 @@ public class HomeFragment extends Fragment {
         Manager.setReverseLayout(true);
         Manager.setStackFromEnd(true);
         showFeedList.setLayoutManager(Manager);
-        GetFeedList();
+        getUserCategory();
 
 
         return view;
     }
-    private void GetFeedList() {
+
+    void getUserCategory(){
+        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                userCategory=user.getCategory();
+
+                if(userCategory.equalsIgnoreCase("veg")){
+                    getVegFeedList(userCategory);
+                }
+                else{
+                    getFeedList();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void getFeedList() {
         FirebaseDatabase.getInstance().getReference().child("posts")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<Post> postList = new ArrayList<>();
+                        Iterator<DataSnapshot> dataSnapshotIterator= dataSnapshot.getChildren().iterator();
+                        while(dataSnapshotIterator.hasNext()){
+                            DataSnapshot snapshot = dataSnapshotIterator.next();
+                            postList.add(snapshot.getValue(Post.class));
+                        }
+                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList);
+                        showFeedList.setAdapter(adapter);
+                        mainPb.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        mainPb.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "Error:"+databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
+
+    private void getVegFeedList(String userCategory) {
+        FirebaseDatabase.getInstance().getReference().child("posts").orderByChild("categoryName").equalTo("Veg")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

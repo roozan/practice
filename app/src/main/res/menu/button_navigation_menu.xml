@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item
     android:id="@+id/home"
-    android:title="home"
-    android:icon="@android:drawable/btn_dialog"/>
+    android:title="Home"
+    android:icon="@android:drawable/menu_frame"/>
 <item
         android:title="Search"
         android:id="@+id/search"
@@ -11,14 +11,14 @@
 <item
         android:title="Add"
         android:id="@+id/add"
-        android:icon="@android:drawable/btn_dropdown"/>
+        android:icon="@android:drawable/btn_plus"/>
 <item
         android:title="Notifications"
         android:id="@+id/notifications"
         android:icon="@android:drawable/btn_dropdown"/>
 <item
         android:id="@+id/profile"
-        android:title="profile"
+        android:title="Profile"
         android:icon="@android:drawable/alert_dark_frame"/>
 
 
