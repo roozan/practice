@@ -25,9 +25,11 @@ import java.util.List;
 
 public class ShowFeedAdapter extends RecyclerView.Adapter<ShowFeedAdapter.ViewHolder> {
     List <Post> feedList;
+    onFeedClickListener onFeedClickListener;
 
-    public ShowFeedAdapter(List<Post> feedList) {
+    public ShowFeedAdapter(List<Post> feedList,onFeedClickListener onFeedClickListener) {
         this.feedList = feedList;
+        this.onFeedClickListener=onFeedClickListener;
     }
 
     @Override
@@ -64,8 +66,15 @@ ImageView foodImage;
                 .child(feed.getPostUploaderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user=dataSnapshot.getValue(User.class);
+                final User user=dataSnapshot.getValue(User.class);
                 showUsername.setText(user.getUserName());
+                showUsername.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onFeedClickListener.onUsernameClicked(user);
+                    }
+                });
+
             }
 
             @Override
@@ -84,4 +93,9 @@ ImageView foodImage;
 
     }
 }
+    interface onFeedClickListener {
+        void onUsernameClicked(User user);
+    }
+
 }
+

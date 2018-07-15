@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,10 +7,21 @@
     tools:context="com.example.rouzan.practice.SignUpActivity"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/signup_image"
+        android:scaleType="centerCrop"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SignUp"/>
+        android:text="SignUp"
+        android:textColor="#000000"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +30,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="First Name:"/>
+        android:text="First Name:"
+        android:textColor="#000000"/>
     <EditText
         android:layout_width="160dp"
         android:layout_height="wrap_content"
@@ -27,7 +39,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last Name"/>
+            android:text="Last Name"
+            android:textColor="#000000"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +54,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username:"/>
+        android:text="Username:"
+        android:textColor="#000000"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +68,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email:"/>
+        android:text="Email:"
+        android:textColor="#000000"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +82,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password:"/>
+        android:text="Password:"
+        android:textColor="#000000"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +96,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirm password:"/>
+        android:text="Confirm password:"
+        android:textColor="#000000"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +106,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="I'm a"/>
+        android:text="I'm a"
+        android:textColor="#000000"/>
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,6 +124,11 @@
         android:text="Non-Veg"
         android:id="@+id/non_vegetarian_rb"/>
     </RadioGroup>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload a profile Photo?"
+        android:textColor="#000000"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -136,5 +159,6 @@
         android:layout_gravity="center"
         android:id="@+id/signup_pb"
         android:visibility="gone"/>
-
 </LinearLayout>
+
+</RelativeLayout>

@@ -1,11 +1,13 @@
 package com.example.rouzan.practice;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +91,18 @@ public class HomeFragment extends Fragment {
                             DataSnapshot snapshot = dataSnapshotIterator.next();
                             postList.add(snapshot.getValue(Post.class));
                         }
-                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList);
+                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList, new ShowFeedAdapter.onFeedClickListener() {
+                            @Override
+                            public void onUsernameClicked(User user) {
+                                if (TextUtils.equals(user.getUserId(),FirebaseAuth.getInstance().getUid())) {
+
+                                } else {
+                                    Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                                    intent.putExtra("userId", user.getUserId());
+                                    startActivity(intent);
+                                }
+                            }
+                        });
                         showFeedList.setAdapter(adapter);
                         mainPb.setVisibility(View.GONE);
                     }
@@ -97,7 +110,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         mainPb.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), "Error:"+databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -114,7 +126,21 @@ public class HomeFragment extends Fragment {
                             DataSnapshot snapshot = dataSnapshotIterator.next();
                             postList.add(snapshot.getValue(Post.class));
                         }
-                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList);
+                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList, new ShowFeedAdapter.onFeedClickListener() {
+                            @Override
+                            public void onUsernameClicked(User user) {
+                                if(TextUtils.equals(user.getUserId(),FirebaseAuth.getInstance().getUid())){
+
+                                }
+                                else {
+                                    Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                                    intent.putExtra("userId", user.getUserId());
+                                    startActivity(intent);
+                                }
+                            }
+
+
+                        });
                         showFeedList.setAdapter(adapter);
                         mainPb.setVisibility(View.GONE);
                     }
@@ -122,7 +148,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         mainPb.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), "Error:"+databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 });

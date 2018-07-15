@@ -80,7 +80,9 @@ public class SignUpActivity extends AppCompatActivity {
         else if (TextUtils.isEmpty(confirmPasswordStr))
             confirmPasswordET.setError("Required");
         else if (TextUtils.isEmpty(categoryStr))
-            Toast.makeText(this, "Select at least one", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select at least one category!", Toast.LENGTH_SHORT).show();
+        else if(bitmap==null)
+            Toast.makeText(SignUpActivity.this, "User Photo is required!", Toast.LENGTH_SHORT).show();
         else
             isVali=true;
     return isVali;
@@ -96,6 +98,8 @@ public class SignUpActivity extends AppCompatActivity {
         user.setEmail(emailStr);
         user.setPassword(passwordStr);
         user.setCategory(categoryStr);
+        user.setFollowingCount(0);
+        user.setFollowersCount(0);
 
 
         FirebaseAuth.getInstance()

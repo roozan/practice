@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -38,12 +39,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Button logoutButton;
+
         navigationView=findViewById(R.id.navigation_view);
+        logoutButton=findViewById(R.id.logout_Button);
 
         setSupportActionBar(toolbar);
         final FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container,new HomeFragment());
         fragmentTransaction.commit();
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -79,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.profile:{
                         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_container,new ProfileFragment());
+                        fragmentTransaction.replace(R.id.main_container,new ProfileFragment(FirebaseAuth.getInstance().getUid(),true));
                         fragmentTransaction.commit();
                         break;
                     }
@@ -87,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
 
     }
 
