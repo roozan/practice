@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,11 +25,11 @@ import java.util.List;
  */
 
 public class ShowFeedAdapter extends RecyclerView.Adapter<ShowFeedAdapter.ViewHolder> {
-    List <Post> feedList;
+    List <String> feedIdList;
     onFeedClickListener onFeedClickListener;
 
-    public ShowFeedAdapter(List<Post> feedList,onFeedClickListener onFeedClickListener) {
-        this.feedList = feedList;
+    public ShowFeedAdapter(List<String> feedIdList,onFeedClickListener onFeedClickListener) {
+        this.feedIdList = feedIdList;
         this.onFeedClickListener=onFeedClickListener;
     }
 
@@ -39,13 +40,26 @@ public class ShowFeedAdapter extends RecyclerView.Adapter<ShowFeedAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-    holder.bindView(feedList.get(position));
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        FirebaseDatabase.getInstance().getReference().child("posts")
+                .child(feedIdList.get(position)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Post post=dataSnapshot.getValue(Post.class);
+                holder.bindView(post);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return feedList.size();
+        return feedIdList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -59,6 +73,7 @@ ImageView foodImage;
         tasted=itemView.findViewById(R.id.button_tasted);
         notTasted=itemView.findViewById(R.id.button_not_tasted);
         foodImage=itemView.findViewById(R.id.food_image);
+
     }
     private void bindView(Post feed){
         //showUsername.setText(feed.getCategoryName());

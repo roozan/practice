@@ -36,6 +36,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -208,7 +209,7 @@ public class AddPostFragment extends Fragment {
 
 
 
-    void uploadPostToFirebase(Post post){
+    void uploadPostToFirebase(final Post post){
         FirebaseDatabase.getInstance().getReference().child("posts")
                 .child(post.getPostId())
                 .setValue(post)
@@ -217,6 +218,24 @@ public class AddPostFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             addPostPb.setVisibility(View.GONE);
+                            FirebaseDatabase.getInstance().getReference().child("followers")
+                                    .child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Iterator <DataSnapshot> snapshotIterator = dataSnapshot.getChildren().iterator();
+                                    while(snapshotIterator.hasNext()){
+                                        DataSnapshot snapshot=snapshotIterator.next();
+                                        String userFollowerId=snapshot.getKey();
+                                        FirebaseDatabase.getInstance().getReference().child("userFeed").child(userFollowerId)
+                                                .child(post.getPostId()).setValue(0);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                             Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
                         }else {
                             addPostPb.setVisibility(View.GONE);

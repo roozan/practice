@@ -65,12 +65,9 @@ public class HomeFragment extends Fragment {
                 User user=dataSnapshot.getValue(User.class);
                 userCategory=user.getCategory();
 
-                if(userCategory.equalsIgnoreCase("veg")){
-                    getVegFeedList(userCategory);
-                }
-                else{
+
                     getFeedList();
-                }
+
 
             }
 
@@ -81,17 +78,18 @@ public class HomeFragment extends Fragment {
         });
     }
     private void getFeedList() {
-        FirebaseDatabase.getInstance().getReference().child("posts")
+        FirebaseDatabase.getInstance().getReference().child("userFeed")
+                .child(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<Post> postList = new ArrayList<>();
+                        List<String> postIdList = new ArrayList<>();
                         Iterator<DataSnapshot> dataSnapshotIterator= dataSnapshot.getChildren().iterator();
                         while(dataSnapshotIterator.hasNext()){
                             DataSnapshot snapshot = dataSnapshotIterator.next();
-                            postList.add(snapshot.getValue(Post.class));
+                            postIdList.add(snapshot.getKey());
                         }
-                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList, new ShowFeedAdapter.onFeedClickListener() {
+                        ShowFeedAdapter adapter = new ShowFeedAdapter(postIdList, new ShowFeedAdapter.onFeedClickListener() {
                             @Override
                             public void onUsernameClicked(User user) {
                                 if (TextUtils.equals(user.getUserId(),FirebaseAuth.getInstance().getUid())) {
@@ -115,42 +113,5 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private void getVegFeedList(String userCategory) {
-        FirebaseDatabase.getInstance().getReference().child("posts").orderByChild("categoryName").equalTo("Veg")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<Post> postList = new ArrayList<>();
-                        Iterator<DataSnapshot> dataSnapshotIterator= dataSnapshot.getChildren().iterator();
-                        while(dataSnapshotIterator.hasNext()){
-                            DataSnapshot snapshot = dataSnapshotIterator.next();
-                            postList.add(snapshot.getValue(Post.class));
-                        }
-                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList, new ShowFeedAdapter.onFeedClickListener() {
-                            @Override
-                            public void onUsernameClicked(User user) {
-                                if(TextUtils.equals(user.getUserId(),FirebaseAuth.getInstance().getUid())){
-
-                                }
-                                else {
-                                    Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                                    intent.putExtra("userId", user.getUserId());
-                                    startActivity(intent);
-                                }
-                            }
-
-
-                        });
-                        showFeedList.setAdapter(adapter);
-                        mainPb.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        mainPb.setVisibility(View.GONE);
-
-                    }
-                });
-    }
 
 }

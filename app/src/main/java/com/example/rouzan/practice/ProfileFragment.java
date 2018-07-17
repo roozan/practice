@@ -9,18 +9,23 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -38,6 +43,7 @@ public class ProfileFragment extends Fragment {
     RecyclerView showFeedList;
     Button followButton;
     Boolean status;
+    private final String TAG= ProfileFragment.class.getSimpleName();
 
     @SuppressLint("ValidFragment")
     public ProfileFragment(String userId,boolean status){
@@ -67,12 +73,18 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<Post> postList = new ArrayList<>();
+                        List<String> postIdList=new ArrayList<>();
                         Iterator<DataSnapshot> dataSnapshotIterator= dataSnapshot.getChildren().iterator();
                         while(dataSnapshotIterator.hasNext()){
                             DataSnapshot snapshot = dataSnapshotIterator.next();
-                            postList.add(snapshot.getValue(Post.class));
+                            Post post=snapshot.getValue(Post.class);
+                            postList.add(post);
+                            postIdList.add(post.getPostId());
                         }
-                        ShowFeedAdapter adapter = new ShowFeedAdapter(postList, new ShowFeedAdapter.onFeedClickListener() {
+
+
+                        getUserDetails(postIdList);
+                        ShowFeedAdapter adapter = new ShowFeedAdapter(postIdList, new ShowFeedAdapter.onFeedClickListener() {
                             @Override
                             public void onUsernameClicked(User user) {
                             }
@@ -87,7 +99,7 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    void getUserDetails(){
+    void getUserDetails(final List<String> postIdList){
         FirebaseDatabase.getInstance().getReference().child("users")
                 .child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -95,26 +107,58 @@ public class ProfileFragment extends Fragment {
                 final User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUserName());
                 category.setText(user.getCategory());
-                Glide.with(profilePhoto.getContext()).load(user.getProfilePhotoUrl()).into(profilePhoto);
+                Glide.with(getContext()).load(user.getProfilePhotoUrl()).into(profilePhoto);
+                Log.d(TAG,"the logged in user id is:"+FirebaseAuth.getInstance().getUid());
+                Log.d(TAG,"the user if to be checked is:"+user.getUserId());
 
-                followButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        HashMap <String,Boolean> hashFollowersList=new HashMap<>();
-                        hashFollowersList.put(user.getUserId(), true);
 
-                        HashMap <String,Boolean> hashFollowingList=new HashMap<>();
-                        hashFollowingList.put(FirebaseAuth.getInstance().getUid(), true);
+                FirebaseDatabase.getInstance().getReference().child("following")
+                        .child(FirebaseAuth.getInstance().getUid())
+                        .child(user.getUserId())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.d(TAG,"the key is:"+dataSnapshot.getKey());
+                                Log.d(TAG,"the value is:"+dataSnapshot.getValue(Boolean.class));
 
-                        user.setFollowersList(hashFollowersList);
+                                if(dataSnapshot.getValue()!=null) {
+                                    followButton.setText("Followed!");
+                                }
+                                else{
+                                    followButton.setText("Follow");
+                                    followButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
 
-                        FirebaseDatabase.getInstance().getReference().child("users")
-                                .child(FirebaseAuth.getInstance().getUid()).child("followingList").setValue(hashFollowingList);
+                                            reference.child("followers").child(user.getUserId()).child(FirebaseAuth.getInstance().getUid()).setValue(true);
+                                            reference.child("following").child(FirebaseAuth.getInstance().getUid()).child(user.getUserId()).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
 
-                        FirebaseDatabase.getInstance().getReference().child("users")
-                                .child(user.getUserId()).setValue(user);
-                    }
-                });
+                                                    if(task.isSuccessful()){
+                                                        followButton.setText("Followed");
+                                                    }
+                                                }
+                                            });
+
+                                            if(postIdList.size()>0)
+                                                for (int i=0;i<postIdList.size();i++)
+                                                    reference.child("userFeed").child(FirebaseAuth.getInstance().getUid()).child(postIdList.get(i)).setValue(0);
+                                        }
+                                    });
+
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
             }
 
@@ -147,8 +191,6 @@ public class ProfileFragment extends Fragment {
 
         showFeedList.setLayoutManager(Manager);
         GetFeedList();
-
-        getUserDetails();
 
 
 
