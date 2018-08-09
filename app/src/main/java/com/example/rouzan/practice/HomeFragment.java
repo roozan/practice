@@ -11,12 +11,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -46,13 +48,14 @@ public class HomeFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         showFeedList=view.findViewById(R.id.show_feed_list);
         mainPb=view.findViewById(R.id.main_pb);
-
         LinearLayoutManager Manager=new LinearLayoutManager(getContext());
         Manager.setOrientation(LinearLayoutManager.VERTICAL);
         Manager.setReverseLayout(true);
         Manager.setStackFromEnd(true);
         showFeedList.setLayoutManager(Manager);
         getUserCategory();
+
+
 
 
         return view;
@@ -69,6 +72,9 @@ public class HomeFragment extends Fragment {
                     getFeedList();
 
 
+
+
+
             }
 
             @Override
@@ -77,6 +83,9 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+
+
     private void getFeedList() {
         FirebaseDatabase.getInstance().getReference().child("userFeed")
                 .child(FirebaseAuth.getInstance().getUid())
@@ -94,12 +103,32 @@ public class HomeFragment extends Fragment {
                             public void onUsernameClicked(User user) {
                                 if (TextUtils.equals(user.getUserId(),FirebaseAuth.getInstance().getUid())) {
 
-                                } else {
+                                }
+                                else {
                                     Intent intent = new Intent(getContext(), UserProfileActivity.class);
                                     intent.putExtra("userId", user.getUserId());
                                     startActivity(intent);
                                 }
                             }
+
+                            @Override
+                            public void onTastedButtonToggled(Post post, boolean tasted) {
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                              if(tasted) {
+                                  post.setTastedCount(post.getTastedCount() + 1);
+                                 // Toast.makeText(getContext(), "Tasted!", Toast.LENGTH_SHORT).show();
+                                  reference.child("tasted").child(FirebaseAuth.getInstance().getUid()).child(post.postId).setValue(true);
+
+                              }else {
+                                  post.setTastedCount(post.getTastedCount() - 1);
+                              //    Toast.makeText(getContext(), " Not Tasted!", Toast.LENGTH_SHORT).show();
+                                  reference.child("tasted").child(FirebaseAuth.getInstance().getUid()).child(post.postId).setValue(false);
+
+                              }
+                                reference.child("posts").child(post.getPostId()).setValue(post);
+                            }
+
+
                         });
                         showFeedList.setAdapter(adapter);
                         mainPb.setVisibility(View.GONE);

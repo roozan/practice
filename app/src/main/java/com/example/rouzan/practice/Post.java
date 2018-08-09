@@ -5,8 +5,25 @@ import java.util.ArrayList;
 public class Post {
     String foodName,categoryName,foodImageUrl,postUploaderId,postId;
     long postUploadTime;
-    int postPoint;
+    int postPoint,tastedCount,notTastedCount;
     ArrayList<String> categoryList;
+
+
+    public int getTastedCount() {
+        return tastedCount;
+    }
+
+    public void setTastedCount(int tastedCount) {
+        this.tastedCount = tastedCount;
+    }
+
+    public int getNotTastedCount() {
+        return notTastedCount;
+    }
+
+    public void setNotTastedCount(int notTastedCount) {
+        this.notTastedCount = notTastedCount;
+    }
 
     public String getPostUploaderId() {
         return postUploaderId;

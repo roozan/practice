@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,32 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onUsernameClicked(User user) {
                             }
+
+                            @Override
+                            public void onTastedButtonToggled(Post post, boolean tasted) {
+                                if(TextUtils.equals(userId,FirebaseAuth.getInstance().getUid())){
+
+                                }
+                                else
+                                {
+                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+                                    if(tasted) {
+                                        post.setTastedCount(post.getTastedCount() + 1);
+                                        Toast.makeText(getContext(), "Tasted!", Toast.LENGTH_SHORT).show();
+                                        reference.child("tasted").child(FirebaseAuth.getInstance().getUid()).child(post.postId).setValue(true);
+
+                                    }else {
+                                        post.setTastedCount(post.getTastedCount() - 1);
+                                        Toast.makeText(getContext(), " Not Tasted!", Toast.LENGTH_SHORT).show();
+                                        reference.child("tasted").child(FirebaseAuth.getInstance().getUid()).child(post.postId).setValue(false);
+
+                                    }
+                                    reference.child("posts").child(post.getPostId()).setValue(post);
+                                }
+
+
+
+                            }
                         });
                         showFeedList.setAdapter(adapter);
                     }
@@ -107,7 +134,8 @@ public class ProfileFragment extends Fragment {
                 final User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUserName());
                 category.setText(user.getCategory());
-                Glide.with(getContext()).load(user.getProfilePhotoUrl()).into(profilePhoto);
+                if (getContext()!=null)
+                  Glide.with(getContext()).load(user.getProfilePhotoUrl()).into(profilePhoto);
                 Log.d(TAG,"the logged in user id is:"+FirebaseAuth.getInstance().getUid());
                 Log.d(TAG,"the user if to be checked is:"+user.getUserId());
 

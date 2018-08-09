@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     }
-                    case R.id.notifications:{
+                    /*case R.id.notifications:{
                         FragmentTransaction fragmentTransaction1=getSupportFragmentManager().beginTransaction();
                         fragmentTransaction1.replace(R.id.main_container,new NotificationFragment());
                         fragmentTransaction1.commit();
                         break;
-                    }
+                    }*/
 
                     case R.id.profile:{
                         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();

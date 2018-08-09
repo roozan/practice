@@ -172,6 +172,8 @@ public class AddPostFragment extends Fragment {
         post.setCategoryList(categoryList);
         post.setPostUploaderId(FirebaseAuth.getInstance().getUid());
         post.setPostUploadTime(System.currentTimeMillis());
+        post.setTastedCount(0);
+        post.setNotTastedCount(0);
         String postId=FirebaseDatabase.getInstance().getReference().child("posts")
                 .push().getKey();
         post.setPostId(postId);

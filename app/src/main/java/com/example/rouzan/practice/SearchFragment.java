@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
 
         searchResult=view.findViewById(R.id.search_result);
 
-        
+
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

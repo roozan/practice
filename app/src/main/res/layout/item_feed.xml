@@ -32,18 +32,20 @@
         android:id="@+id/food_image"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Tasted!!"
-        android:id="@+id/button_tasted"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Not Tasted"
-            android:id="@+id/button_not_tasted"/>
+        android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:id="@+id/toggle_button"
+     />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tasted_count"/>
     </LinearLayout>
+
 
 </LinearLayout>
 

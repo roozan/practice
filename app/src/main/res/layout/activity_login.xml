@@ -8,54 +8,57 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/login"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_bg"
+        android:scaleType="centerCrop"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Khaja Nepal"
-        android:textColor="#EE82EE"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textColor="#EE82EE"
-        android:gravity="center"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Food Gram"
+        android:textSize="35dip"
+        android:layout_marginBottom="63dp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/finalfont"/>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email:"
-        android:textColor="#FFFFFF"/>
+        android:text="Email"
+        android:layout_gravity="center"
+        android:textSize="15dip"
+        android:textColor="#ffffff"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email_et"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password:"
         android:textColor="#FFFFFF"
-        />
+        android:hint="Password"
+        android:textSize="15dip"
+        android:layout_gravity="center"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -64,22 +67,24 @@
             android:textColor="#FFFFFF"
             android:inputType="textPassword"/>
 
-    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+        <Button
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/login_button"
         android:layout_gravity="center"
-        android:layout_marginBottom="105dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+            android:padding="12dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
         android:text="Not a user yet?"
-        android:textColor="#EE82EE"
+        android:textSize="16dip"
+        android:textColor="#ffffff"
         android:gravity="center"/>
     <Button
         android:layout_width="wrap_content"
